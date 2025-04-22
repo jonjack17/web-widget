@@ -1,0 +1,8 @@
+
+.main {
+    display: flex;
+    padding: 49px;
+    justify-content: center;
+    width: 400px;
+    border: 3px solid red;
+}
