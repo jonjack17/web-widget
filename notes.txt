@@ -1,0 +1,3 @@
+Use fetch() to work with the API
+
+Use async/await with fetch()
