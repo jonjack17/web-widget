@@ -1,3 +1,9 @@
 Use fetch() to work with the API
 
 Use async/await with fetch()
+
+
+Order of tasks?
+
+- I can get the data and any part of it I want (may need to iterate with 
+a for loop), so I should start working on the overall interface
