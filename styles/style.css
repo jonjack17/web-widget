@@ -1,0 +1,31 @@
+.outer-container {
+    width: 50%;
+    margin: auto;
+    padding: 0.75rem;
+    border: 0.2rem solid lightgray;
+    border-radius: .75rem;
+    text-align: center;
+}
+
+.title {
+    border-bottom: .1rem solid lightgray;
+    padding-bottom: .5rem;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.feature-btn {
+    all: unset;
+    padding: 1rem 2rem;
+    background: blue;
+    border-radius: 1rem;
+    color: white;
+}
+
+.feature-btn:hover {
+    background: lightblue;
+    
+}
