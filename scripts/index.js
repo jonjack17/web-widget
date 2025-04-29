@@ -7,34 +7,66 @@ testEl.textContent = 'test'
 
 
 
-async function displayAllData() {
+async function getAllData() {
     const url = "http://localhost:3000/data/";
     const response = await fetch(url);
     
     const jsonResponse = await response.json();
 
-    const normalizedResponse = await jsonResponse.map(user => ({
+//     const normalizedResponse = await jsonResponse.map(user => ({
          
-        id:user.id,
-        name:user.name,
-        email: user.email,
-        info: user.info,
-        fruit: user.fruit
+//         id:user.id,
+//         name:user.name,
+//         email: user.email,
+//         info: user.info,
+//         fruit: user.fruit
 
-    }))
+//     }))
 
-   return normalizedResponse
+//    return normalizedResponse
+    return jsonResponse
 }   
 
-const normalizedResponse = await displayAllData()
+getAllData()
+
+const userData = await getAllData()
 
 
-console.log(normalizedResponse[0].info)
+console.log(userData)
+
+function renderAllUsers() {
+    
+    const allUsersHtml = userData.map(user => {
+        if (user.name) {
+            return ` 
+            <div class= "user-container">
+                <p>${user.name} </p>
+                
 
 
-// getAllUsersBtn.addEventListener("click", function(e) {
-//     displayAllData()
+            </div>
+        
+        
+        `
+    } else {
+        return `missing data`
+    }
+
+    }).join('')
+    testEl.innerHTML = `
+    
+        ${allUsersHtml}
+    `
+}
+
+
+
+
+
+
+getAllUsersBtn.addEventListener("click", function(e) {
+    renderAllUsers()
    
-// })
+})
 
 

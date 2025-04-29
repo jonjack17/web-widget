@@ -1,3 +1,8 @@
+body {
+    font-size: .75rem;
+}
+
+
 .outer-container {
     width: 50%;
     margin: auto;
@@ -28,4 +33,8 @@
 .feature-btn:hover {
     background: lightblue;
     
+}
+
+.user-container {
+    display: flex
 }
