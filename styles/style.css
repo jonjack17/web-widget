@@ -1,15 +1,17 @@
 body {
-    font-size: .75rem;
+    font-size: 1rem;
 }
 
 
 .outer-container {
     width: 50%;
+    height: 40rem;
     margin: auto;
     padding: 0.75rem;
     border: 0.2rem solid lightgray;
     border-radius: .75rem;
     text-align: center;
+    overflow: scroll;
 }
 
 .title {
@@ -18,13 +20,14 @@ body {
 }
 
 .btn-container {
+    margin-bottom: 1rem;
     display: flex;
     justify-content: space-around;
 }
 
 .feature-btn {
     all: unset;
-    padding: 1rem 2rem;
+    padding: 1rem 1.5rem;
     background: blue;
     border-radius: 1rem;
     color: white;
@@ -35,6 +38,43 @@ body {
     
 }
 
-.user-container {
-    display: flex
+.data-container {
+    overflow: scroll;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.cell {
+    width: 25%;
+    height: 3rem;
+    border: 1px solid red;
+    overflow: scroll;
+}
+.row {
+    display: flex;
+}
+
+.btn-alternate {
+    color: black;
+    background:lightcyan;
+    
+}
+
+.clear-btn {
+    color:white;
+    background: salmon;
+
+}
+
+.clear-btn:hover {
+    color: white;
+    background: lightsalmon;
+}
+
+.hidden {
+    display:none;
 }
