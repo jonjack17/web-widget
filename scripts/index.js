@@ -1,4 +1,5 @@
 
+
 const outerContainer = document.getElementById('outer-container')
 const dataContainer=document.getElementById('data-container')
 const getUserBtn = document.getElementById('get-user')
@@ -65,7 +66,7 @@ const createUserObject = (item) => {
       
     }
     
-   
+
     dataContainer.innerHTML += `
         <div class="row">
             <div class="cell">${userObject.name}</div>
@@ -80,11 +81,12 @@ const createUserObject = (item) => {
                             
 }
 
-let index = 0
+
 // Each time the button is clicked, I am iterating through the 
 // responseIdArray. So I'm getting each item ID in turn, assigning
 // that to itemId, then calling getUser with each itemId as the parameter.
 // So the API is in effect called everytime the button is clicked.
+let index = 0
 getUserBtn.addEventListener("click", async (e) => {
     let itemId = responseIdArray[index]
     let userResponse = await getUser(itemId)
@@ -127,3 +129,14 @@ const createClearBtn = () => {
     })
 }
 
+
+// const { exec } = require('child_process')
+
+// const command = 'curl -s -w http://localhost:3000/data/'
+
+// exec(command, (error, stdout, stderr) => {
+//     if(error) {
+//         console.log(error)
+//     }
+//     console.log(stdout)
+// }) 
