@@ -42,6 +42,14 @@ body {
     overflow: scroll;
 }
 
+.response-container {
+    margin-bottom: 1rem;
+    
+   
+    border: .5rem solid blue;
+    border-radius: 1rem;
+    
+}
 .header-row {
     display: flex;
     justify-content: space-around;
@@ -50,14 +58,18 @@ body {
 
 .cell {
     width: 25%;
-    height: 3rem;
     border: 1px solid red;
+    padding: 1rem .25rem;
     overflow: scroll;
+
 }
 .row {
     display: flex;
 }
 
+/* .fruit {
+    
+} */
 .btn-alternate {
     color: black;
     background:lightcyan;
@@ -65,13 +77,13 @@ body {
 }
 
 .clear-btn {
+    margin-bottom: 1rem;
     color:white;
     background: salmon;
 
 }
 
 .clear-btn:hover {
-    color: white;
     background: lightsalmon;
 }
 

@@ -5,10 +5,9 @@ const getUserBtn = document.getElementById('get-user')
 const btnContainer = document.getElementById('btn-container')
 
 
-dataContainer.textContent = "ready to get data"
 
 
-
+// Fetch all data from the API
 const getAllData = async () => {
     const url = "http://localhost:3000/data/";
     const response = await fetch(url);
@@ -18,12 +17,32 @@ const getAllData = async () => {
     return jsonResponse
 }   
 
-getAllData()
 
-const userData = await getAllData()
+const allUserData = await getAllData()
+
+// Get an array of the IDs for each response item
+const getResponseIDs = () => {
+    let itemIDs = []
+    allUserData.forEach((user) => {
+        let id = user.id
+        itemIDs.push(id)
+    })
+    return itemIDs
+}
+
+const responseIdArray = getResponseIDs()
+
+// Call the API for a specific data item. 'id' parameter comes from
+// getUserBtn event listener.
+const getUser = async (id) => {
+    const url = `http://localhost:3000/data/${id}`;
+    const response = await fetch(url);
+    const jsonResponse = await response.json();
+    
+    return jsonResponse
+}   
 
 
-console.log(userData)
 
 dataContainer.innerHTML = `
 <div class="header-row">
@@ -32,15 +51,16 @@ dataContainer.innerHTML = `
     <div class="cell column-header"> Info </div>
     <div class="cell column-header"> Timestamp </div>
 </div> 
+
 ` 
-const createUserObject = (index) => {
+const createUserObject = (item) => {
     let userObject = {
-        id : userData[index].id,
-        name :userData[index].name ? userData[index].name : "Missing Name",
-        email: userData[index].email ? userData[index].email : "Missing Email",
-        info:  userData[index].info ? userData[index].info : "Missing Info",
-        fruit: userData[index].fruit ? userData[index].fruit : "Missing fruit data",
-        timestamp: userData[index].timestamp ? userData[index].timestamp : "Missing timestamp"
+        id : item.id,
+        name :item.name ? item.name : "Missing Name",
+        email: item.email ? item.email : "Missing Email",
+        info:  item.info ? item.info : "Missing Info",
+        fruit: item.fruit ? item.fruit : "Missing Fruit Data",
+        timestamp: item.timestamp ? item.timestamp : "Missing timestamp"
 
       
     }
@@ -50,20 +70,28 @@ const createUserObject = (index) => {
         <div class="row">
             <div class="cell">${userObject.name}</div>
             <div class="cell">${userObject.email}</div>
-            <div class="cell">${userObject.info}</div>
+            <div class="cell">
+                ${userObject.info}
+                <p class = "fruit" > Fruit:${userObject.fruit} </p>
+            </div>
             <div class="cell">${userObject.timestamp}</div>
         </div>
               `              
                             
 }
 
-let count = 0
-
-getUserBtn.addEventListener("click", (e) => {
-   createUserObject(count)
-   count += 1
+let index = 0
+// Each time the button is clicked, I am iterating through the 
+// responseIdArray. So I'm getting each item ID in turn, assigning
+// that to itemId, then calling getUser with each itemId as the parameter.
+// So the API is in effect called everytime the button is clicked.
+getUserBtn.addEventListener("click", async (e) => {
+    let itemId = responseIdArray[index]
+    let userResponse = await getUser(itemId)
+   createUserObject(userResponse)
+   index += 1
 //    Check if end of data array has been reached. If so, display "clear" btn
-   if (count > userData.length-1) {
+   if (index > allUserData.length-1) {
         getUserBtn.disabled = true
         getUserBtn.textContent = "All Users Retrieved"
         getUserBtn.classList.toggle('btn-alternate')
@@ -82,7 +110,7 @@ const createClearBtn = () => {
     clearBtn.textContent = "Clear Display?"
 
     clearBtn.addEventListener("click", (e) => {
-        count = 0
+        index = 0
         dataContainer.innerHTML = `
         <div class="header-row">
             <div class="cell column-header"> Name </div>

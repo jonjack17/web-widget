@@ -3,7 +3,11 @@ Use fetch() to work with the API
 Use async/await with fetch()
 
 
-Order of tasks?
+One idea: getting the whole response data, so that I get the keys. Then using 
+the "get user" button to call the api for each ID in turn, until it gets to the 
+end.
 
-I need to get the object. THen I need to get the object's html and add it 
-to the table (+= to the table headers)
+
+I have the array of responseId's. So I can call the api for each Id in that array.
+I want that to happen everytime I click the "get user "button.  So the "get user" 
+button should call the functions that create/render the user object.
