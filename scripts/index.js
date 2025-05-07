@@ -2,8 +2,13 @@
 
 const outerContainer = document.getElementById('outer-container')
 const dataContainer=document.getElementById('data-container')
-const getUserBtn = document.getElementById('get-user')
 const btnContainer = document.getElementById('btn-container')
+const getUserBtn = document.getElementById('get-user')
+const createUserBtn = document.getElementById('create-user-btn')
+const responseText = document.getElementById('response-text')
+const formContainer = document.getElementById('create-user-container')
+const createUserForm = document.getElementById('create-user-form')
+const sendUserBtn = document.getElementById('submit-btn')
 
 
 
@@ -39,7 +44,8 @@ const getUser = async (id) => {
     const url = `http://localhost:3000/data/${id}`;
     const response = await fetch(url);
     const jsonResponse = await response.json();
-    
+    // responseText.innerText = `
+    // API Response:  ${response.status}:` + `${response.timestamp}` 
     return jsonResponse
 }   
 
@@ -91,6 +97,7 @@ getUserBtn.addEventListener("click", async (e) => {
     let itemId = responseIdArray[index]
     let userResponse = await getUser(itemId)
    createUserObject(userResponse)
+
    index += 1
 //    Check if end of data array has been reached. If so, display "clear" btn
    if (index > allUserData.length-1) {
@@ -129,14 +136,16 @@ const createClearBtn = () => {
     })
 }
 
+createUserBtn.addEventListener("click", (e) => {
+    formContainer.classList.toggle("hidden")
+})
 
-// const { exec } = require('child_process')
+// sendUserBtn.addEventListener("click", async (e) => {
+//     const formData = new FormData(createUserForm)
+    
+//     const response = await fetch("http://localhost:3000/data/", {
 
-// const command = 'curl -s -w http://localhost:3000/data/'
+    // See mdn page. add method/body (headers?) here.
 
-// exec(command, (error, stdout, stderr) => {
-//     if(error) {
-//         console.log(error)
-//     }
-//     console.log(stdout)
-// }) 
+//     })
+// })

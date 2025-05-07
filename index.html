@@ -13,12 +13,43 @@
 
         <div id="btn-container" class="btn-container">
             <button type="button" class="feature-btn"> Add to Page </button>
-            <button type="button" class="feature-btn"> Create User </button>
+            <button type="button" id=create-user-btn class="feature-btn"> Create User </button>
             <button type="button" id="get-user" class="feature-btn"> Get User </button>
         </div>
 
-        <div class="response-container">
-            <p>API Response:</p>
+        <div id="create-user-container" class="hidden">
+            <form id="create-user-form">
+
+                <input
+                    type = "text"
+                    placeholder = "Enter email"
+                    name="email"
+                    required
+                    >
+                <input
+                    type = "text"
+                    placeholder = "Enter name"
+                    name="name"
+                    >
+                <input
+                    rows = "4"
+                    placeholder = "Enter info"
+                    name="info"
+                    >
+
+
+                <button 
+                    id="submit-btn" 
+                    class="feature-btn feature-btn:hover" 
+                    type="submit"> 
+                    Submit 
+                </button>
+            </form>
+
+        </div>
+
+        <div id="response-container">
+            <p id="response-text">API Response:</p>
         </div>
         
         <div id="data-container"> 

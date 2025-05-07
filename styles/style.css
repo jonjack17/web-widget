@@ -36,20 +36,45 @@ body {
 
 .feature-btn:hover {
     background: lightblue;
+    color: #0D007C;
+    font-weight: bold;
     
+}
+
+#create-user-container {
+    margin: 0 auto;
+    width: 50%;
+    border: .2rem solid blue;
+    border-radius: 1rem;
+    background-color:lightcyan;
+}
+
+#create-user-form {
+    display:flex;
+    flex-direction: column;
+    padding: 1rem
+    
+}
+
+
+input {
+    margin-bottom: 1rem; 
+}
+
+
+
+#response-container {
+    margin:  1rem;
+    border: .2rem solid blue;
+    border-radius: 1rem;
+    background-color:lightcyan;
 }
 
 .data-container {
     overflow: scroll;
 }
 
-.response-container {
-    margin-bottom: 1rem;
-    border: .2rem solid blue;
-    border-radius: 1rem;
-    background-color:lightcyan;
-    
-}
+
 .header-row {
     display: flex;
     justify-content: space-around;
@@ -93,3 +118,5 @@ body {
 .hidden {
     display:none;
 }
+
+
