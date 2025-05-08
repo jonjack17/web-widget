@@ -7,7 +7,6 @@ const getUserBtn = document.getElementById('get-user')
 const createUserBtn = document.getElementById('create-user-btn')
 const responseText = document.getElementById('response-text')
 const formContainer = document.getElementById('create-user-container')
-const createUserForm = document.getElementById('create-user-form')
 const sendUserBtn = document.getElementById('submit-btn')
 
 
@@ -140,12 +139,27 @@ createUserBtn.addEventListener("click", (e) => {
     formContainer.classList.toggle("hidden")
 })
 
-// sendUserBtn.addEventListener("click", async (e) => {
-//     const formData = new FormData(createUserForm)
+
+sendUserBtn.addEventListener("click", async (e) => {
+    e.preventDefault()
+    const createUserForm = document.getElementById('create-user-form')
+    const formData = new FormData(createUserForm)
+    let formDataObject = {}
+    formData.forEach((value, key) => {
+        formDataObject[key] = value
+    })
+    const formDataJsonStr = JSON.stringify(formDataObject)
     
-//     const response = await fetch("http://localhost:3000/data/", {
+   
 
-    // See mdn page. add method/body (headers?) here.
+   
+    formContainer.classList.toggle("hidden")
+    
+    const response = await fetch("http://localhost:3000/data/", {
+        method: "POST",
+        body: formDataJsonStr,
 
-//     })
-// })
+        
+    })
+   console.log((formDataJsonStr))
+})
