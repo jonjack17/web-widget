@@ -148,9 +148,10 @@ sendUserBtn.addEventListener("click", async (e) => {
     formData.forEach((value, key) => {
         formDataObject[key] = value
     })
-    const formDataJsonStr = JSON.stringify(formDataObject)
+
     const bodyArray = []
-    bodyArray.push(formDataJsonStr)
+    bodyArray.push(formDataObject)
+    bodyArrayJsonStr = JSON.stringify(bodyArray)
     
    
 
@@ -159,7 +160,7 @@ sendUserBtn.addEventListener("click", async (e) => {
     
     const response = await fetch("http://localhost:3000/data/", {
         method: "POST",
-        body: bodyArray,
+        body: JSON.stringify(bodyArray),
 
         
     })
