@@ -18,12 +18,13 @@ const getAllData = async () => {
     const response = await fetch(url);
 
     const jsonResponse = await response.json();
-
+    console.log(response.status)
     return jsonResponse
+   
 }   
 
 
-const allUserData = await getAllData()
+let allUserData = await getAllData()
 
 // Get an array of the IDs for each response item
 const getResponseIDs = () => {
@@ -35,7 +36,7 @@ const getResponseIDs = () => {
     return itemIDs
 }
 
-const responseIdArray = getResponseIDs()
+let responseIdArray = getResponseIDs()
 
 // Call the API for a specific data item. 'id' parameter comes from
 // getUserBtn event listener.
@@ -43,8 +44,6 @@ const getUser = async (id) => {
     const url = `http://localhost:3000/data/${id}`;
     const response = await fetch(url);
     const jsonResponse = await response.json();
-    // responseText.innerText = `
-    // API Response:  ${response.status}:` + `${response.timestamp}` 
     return jsonResponse
 }   
 
@@ -151,18 +150,31 @@ sendUserBtn.addEventListener("click", async (e) => {
 
     const bodyArray = []
     bodyArray.push(formDataObject)
-    bodyArrayJsonStr = JSON.stringify(bodyArray)
+    
     
    
 
    
     formContainer.classList.toggle("hidden")
-    
-    const response = await fetch("http://localhost:3000/data/", {
-        method: "POST",
-        body: JSON.stringify(bodyArray),
+    try {
+        const response = await fetch("http://localhost:3000/data/", {
+            headers: {
+                "Content-Type" : "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(bodyArray),
+        })
+        const resText = await response.text()
+        responseText.innerText =`API Response: \n ${resText}`
+        if (!response.ok) {
+            throw new Error(`${response.status} \n ${resText}`)
+
+        }
+        } catch(error) {
+            console.log(error)
+            responseText.innerText = `API Response: \n ${error}`
+        }
 
         
-    })
-   console.log(Array.isArray(bodyArray))
+   console.log((bodyArray))
 })
