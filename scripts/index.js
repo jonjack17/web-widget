@@ -175,6 +175,6 @@ sendUserBtn.addEventListener("click", async (e) => {
             responseText.innerText = `API Response: \n ${error}`
         }
 
-        
+    createUserForm.reset()
    console.log((bodyArray))
 })

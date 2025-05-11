@@ -1,13 +1,13 @@
 body {
     font-size: 1rem;
     color: #0D007C;
+    width: 35rem;
+    
 }
 
 
 .outer-container {
-    width: 50%;
     height: 40rem;
-    margin: auto;
     padding: 0.75rem;
     border: 0.2rem solid lightgray;
     border-radius: .75rem;
