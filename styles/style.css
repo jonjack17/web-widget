@@ -87,10 +87,16 @@ input {
     border: 1px solid lightgrey;
     border-radius: .5rem;
     padding: 1rem .25rem;
+    height: 2rem;
     overflow: scroll;
     
 
 }
+
+/* .expand {
+    height: 5rem;
+} */
+
 .row {
     display: flex;
 }

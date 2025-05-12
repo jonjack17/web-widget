@@ -64,25 +64,54 @@ const createUserObject = (item) => {
         name :item.name ? item.name : "Missing Name",
         email: item.email ? item.email : "Missing Email",
         info:  item.info ? item.info : "Missing Info",
-        fruit: item.fruit ? item.fruit : "Missing Fruit Data",
-        timestamp: item.timestamp ? item.timestamp : "Missing timestamp"
+        fruit: item.fruit ? item.fruit : "",
+        timestamp: item.timestamp ? item.timestamp : "Missing Timestamp"
 
       
     }
-    
-
+    let fruitString = "Favorite fruits:"
+    if (item.fruit) {
+        userObject.fruit.forEach( (fruitItem) =>{
+            fruitString += fruitItem + " "
+        })
+    } else {
+        fruitString = ""
+    }
+    // Refactored for security improvement - the only data I'm setting inside
+    // innerHTML is the server-generated ID (not user input). Everything that is
+    // user input is set using textContent.
+    console.log(Array.isArray(item.fruit))
     dataContainer.innerHTML += `
-        <div class="row">
-            <div class="cell">${userObject.name}</div>
-            <div class="cell">${userObject.email}</div>
-            <div class="cell">
-                ${userObject.info}
-                <p class = "fruit" > Fruit:${userObject.fruit} </p>
-            </div>
-            <div class="cell">${userObject.timestamp}</div>
+        <div class="row" id=${userObject.id}>
         </div>
-              `              
-                            
+              `       
+
+    let nameDiv = document.createElement("div") 
+    nameDiv.classList.add("cell")  
+    nameDiv.textContent = userObject.name
+    document.getElementById(userObject.id).appendChild(nameDiv)
+    
+    let emailDiv = document.createElement("div") 
+    emailDiv.classList.add("cell")  
+    emailDiv.textContent = userObject.email
+    document.getElementById(userObject.id).appendChild(emailDiv)   
+
+    let infoDiv = document.createElement("div") 
+    infoDiv.classList.add("cell")
+    let fruitDiv = document.createElement("div")
+    infoDiv.textContent = userObject.info + "\n" + fruitString
+    document.getElementById(userObject.id).appendChild(infoDiv)   
+
+    let timestampDiv = document.createElement("div") 
+    timestampDiv.classList.add("cell")  
+    timestampDiv.textContent = userObject.timestamp
+    document.getElementById(userObject.id).appendChild(timestampDiv)   
+
+    // Working on hover/expand of cells.
+    // dataContainer.addEventListener("hover", (e) => {
+    //         document.getElementById(e.target.id).classList.add(".expand")
+    
+    // }) 
 }
 
 
@@ -178,3 +207,4 @@ sendUserBtn.addEventListener("click", async (e) => {
     createUserForm.reset()
    console.log((bodyArray))
 })
+

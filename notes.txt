@@ -11,3 +11,5 @@ end.
 I have the array of responseId's. So I can call the api for each Id in that array.
 I want that to happen everytime I click the "get user "button.  So the "get user" 
 button should call the functions that create/render the user object.
+
+
