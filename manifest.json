@@ -12,7 +12,12 @@
         "48" : "icons/globe_icon_48x48.png"
     },
 
-    "permissions": ["activeTab"],
+   
+
+    "permissions": [
+        "tabs",
+        "<all_urls>"
+    ],
 
     "browser_action": {
         "default_icon": "icons/globe_icon_48x48.png",

@@ -3,6 +3,7 @@
 const outerContainer = document.getElementById('outer-container')
 const dataContainer=document.getElementById('data-container')
 const btnContainer = document.getElementById('btn-container')
+const addToPageBtn = document.getElementById('add-to-page-btn')
 const getUserBtn = document.getElementById('get-user')
 const createUserBtn = document.getElementById('create-user-btn')
 const responseContainer = document.getElementById('response-container')
@@ -266,4 +267,19 @@ sendUserBtn.addEventListener("click", async (e) => {
     createUserForm.reset()
    console.log((bodyArray))
 })
+
+const executeContentScript = async () => {
+    try {
+        const [tab] = await browser.tabs.query({active: true, currentWindow: true})
+        await browser.tabs.executeScript(tab.id, {file: "scripts/content_scripts/addtopage.js"})
+        console.log("Success", tab.id)
+    } catch(error) {
+        console.error("Error injecting script:", error)
+    }
+}
+
+addToPageBtn.addEventListener("click", executeContentScript)
+
+
+
 
