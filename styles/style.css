@@ -1,4 +1,5 @@
 body {
+    font-family: "Noto Sans", sans-serif;
     font-size: 1rem;
     color: #0D007C;
     width: 35rem;
@@ -43,6 +44,8 @@ body {
 
 #create-user-container {
     margin: 0 auto;
+    margin-bottom: 1rem;
+    
     width: 50%;
     border: .2rem solid blue;
     border-radius: 1rem;
@@ -65,9 +68,20 @@ input {
 
 #response-container {
     margin:  1rem;
-    border: .2rem solid blue;
     border-radius: 1rem;
-    background-color:lightcyan;
+    padding: 1rem 0rem;
+    
+}
+
+.success-message {
+    border: .2rem solid lightgray;
+    background-color: green;
+    color: white;
+}
+
+.error-message {
+    background-color: darkorange;
+    color: white;
 }
 
 .data-container {
@@ -83,22 +97,32 @@ input {
 }
 
 .cell {
+    font-size: .9rem;
     width: 25%;
     border: 1px solid lightgrey;
-    border-radius: .5rem;
-    padding: 1rem .25rem;
-    height: 2rem;
-    overflow: scroll;
+    padding: .5rem 0rem;
+   
+    overflow: hidden;
+    
     
 
 }
 
-/* .expand {
-    height: 5rem;
-} */
+.name-cell {
+    width: 15%;
+}
+
+.email-cell {
+    width: 35%;
+}
 
 .row {
+    height: 2rem;
     display: flex;
+}
+
+.row:hover {
+    height: unset;
 }
 
 /* .fruit {

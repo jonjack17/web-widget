@@ -1,28 +1,50 @@
 
-
+// DOM object assignment.
 const outerContainer = document.getElementById('outer-container')
 const dataContainer=document.getElementById('data-container')
 const btnContainer = document.getElementById('btn-container')
 const getUserBtn = document.getElementById('get-user')
 const createUserBtn = document.getElementById('create-user-btn')
-const responseText = document.getElementById('response-text')
+const responseContainer = document.getElementById('response-container')
 const formContainer = document.getElementById('create-user-container')
 const sendUserBtn = document.getElementById('submit-btn')
 
 
+// Set row headers for data container. Will always be displayed.
+dataContainer.innerHTML = `
+<div class="header-row">
+    <div class="cell column-header name-cell"> Name </div>
+    <div class="cell column-header email-cell"> Email </div>
+    <div class="cell column-header"> Info </div>
+    <div class="cell column-header"> Timestamp </div>
+</div> 
 
+`
 
-// Fetch all data from the API
+// Fetch all data from the API. Added error handling to account for server
+// being down. ("Hard-coded" the error message.)
+
 const getAllData = async () => {
-    const url = "http://localhost:3000/data/";
-    const response = await fetch(url);
-
-    const jsonResponse = await response.json();
-    console.log(response.status)
-    return jsonResponse
-   
-}   
-
+    try {
+        const url = "http://localhost:3000/data/";
+        const response = await fetch(url);
+    
+        const jsonResponse = await response.json();
+        console.log(response.status)
+        return jsonResponse
+        
+        } catch(error) {
+        console.log(error)
+        responseContainer.classList.remove("hidden")
+        responseContainer.classList.add("error-message")
+        responseContainer.textContent = "Could not connect to server"
+            }
+}
+    
+        
+      
+    
+  
 
 let allUserData = await getAllData()
 
@@ -40,24 +62,39 @@ let responseIdArray = getResponseIDs()
 
 // Call the API for a specific data item. 'id' parameter comes from
 // getUserBtn event listener.
+
+
 const getUser = async (id) => {
-    const url = `http://localhost:3000/data/${id}`;
-    const response = await fetch(url);
-    const jsonResponse = await response.json();
-    return jsonResponse
+    // Added error handling for when API is called for an item that does
+    // not exist.
+    try {
+        const url = `http://localhost:3000/data/${id}`;
+        const response = await fetch(url);
+        const jsonResponse = await response.json();
+
+        if (!response.ok) {
+            throw new Error(`${response.status} - ${jsonResponse.message}`)
+
+        }
+        return jsonResponse
+    } catch(error) {
+        console.log(error)
+            responseContainer.classList.remove("hidden")
+            responseContainer.classList.add("error-message")
+            responseContainer.textContent = error
+        setTimeout(() => {
+            responseContainer.classList.add("hidden")
+            responseContainer.classList.remove("error-message")
+            responseContainer.textContent = ""
+        }, 4000)
+        
+    }
+    
 }   
 
 
 
-dataContainer.innerHTML = `
-<div class="header-row">
-    <div class="cell column-header"> Name </div>
-    <div class="cell column-header"> Email </div>
-    <div class="cell column-header"> Info </div>
-    <div class="cell column-header"> Timestamp </div>
-</div> 
 
-` 
 const createUserObject = (item) => {
     let userObject = {
         id : item.id,
@@ -69,49 +106,53 @@ const createUserObject = (item) => {
 
       
     }
-    let fruitString = "Favorite fruits:"
-    if (item.fruit) {
-        userObject.fruit.forEach( (fruitItem) =>{
-            fruitString += fruitItem + " "
-        })
-    } else {
-        fruitString = ""
-    }
+   
     // Refactored for security improvement - the only data I'm setting inside
     // innerHTML is the server-generated ID (not user input). Everything that is
     // user input is set using textContent.
-    console.log(Array.isArray(item.fruit))
+    
     dataContainer.innerHTML += `
         <div class="row" id=${userObject.id}>
         </div>
               `       
 
     let nameDiv = document.createElement("div") 
-    nameDiv.classList.add("cell")  
+    nameDiv.classList.add("cell")
+    nameDiv.classList.add("name-cell")  
     nameDiv.textContent = userObject.name
     document.getElementById(userObject.id).appendChild(nameDiv)
     
     let emailDiv = document.createElement("div") 
     emailDiv.classList.add("cell")  
+    emailDiv.classList.add("email-cell") 
     emailDiv.textContent = userObject.email
     document.getElementById(userObject.id).appendChild(emailDiv)   
 
     let infoDiv = document.createElement("div") 
     infoDiv.classList.add("cell")
-    let fruitDiv = document.createElement("div")
-    infoDiv.textContent = userObject.info + "\n" + fruitString
-    document.getElementById(userObject.id).appendChild(infoDiv)   
+    infoDiv.textContent = userObject.info
+
+    if (userObject.fruit) {
+        let fruitListTitle = document.createElement("p")
+        fruitListTitle.textContent = "Favorite fruits:"
+        let fruitList = document.createElement("ul")
+        userObject.fruit.forEach( (fruitItem) =>{
+            let fruitListItem = document.createElement("li")
+            fruitListItem.textContent = fruitItem
+            fruitList.appendChild(fruitListItem)
+        })
+        infoDiv.appendChild(fruitListTitle)
+        infoDiv.appendChild(fruitList)
+    } 
+    
+    document.getElementById(userObject.id).appendChild(infoDiv)
+      
 
     let timestampDiv = document.createElement("div") 
     timestampDiv.classList.add("cell")  
     timestampDiv.textContent = userObject.timestamp
     document.getElementById(userObject.id).appendChild(timestampDiv)   
 
-    // Working on hover/expand of cells.
-    // dataContainer.addEventListener("hover", (e) => {
-    //         document.getElementById(e.target.id).classList.add(".expand")
-    
-    // }) 
 }
 
 
@@ -193,15 +234,33 @@ sendUserBtn.addEventListener("click", async (e) => {
             method: "POST",
             body: JSON.stringify(bodyArray),
         })
-        const resText = await response.text()
-        responseText.innerText =`API Response: \n ${resText}`
+        const resJson = await response.json()
+        responseContainer.classList.remove("hidden")
+        responseContainer.classList.add("success-message")
+        responseContainer.textContent =`User added successfully!`
+       
+        setTimeout(() => {
+            responseContainer.classList.add("hidden")
+            responseContainer.classList.remove("success-message")
+            responseContainer.textContent = ""
+        }, 3000)
+        
+        
         if (!response.ok) {
-            throw new Error(`${response.status} \n ${resText}`)
+            throw new Error(`${response.status} - ${resJson.message}`)
 
         }
         } catch(error) {
             console.log(error)
-            responseText.innerText = `API Response: \n ${error}`
+            responseContainer.classList.remove("hidden")
+            responseContainer.classList.add("error-message")
+            responseContainer.textContent = error
+
+            setTimeout(() => {
+                responseContainer.classList.add("hidden")
+                responseContainer.classList.remove("error-message")
+                responseContainer.textContent = ""
+            }, 3000)
         }
 
     createUserForm.reset()

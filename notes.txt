@@ -13,3 +13,20 @@ I want that to happen everytime I click the "get user "button.  So the "get user
 button should call the functions that create/render the user object.
 
 
+
+
+Todo:
+
+Add try/catch on all API calls (including for the purpose of displaying error
+when server is not up) - Done!
+
+Do addtopage section
+
+When a new user is added, getting all the data again so that "get user" button
+displays all data, including data just added (without having to refresh)
+
+Styling fixes/improvements - done, and fruit is good, but maybe some tiny 
+finishing touches there. (editing list style etc)
+
+Refactoring as needed
+
