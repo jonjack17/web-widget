@@ -1,3 +1,5 @@
+import { CONFIG } from "/scripts/config.js"
+
 
 // DOM object assignment.
 const outerContainer = document.getElementById('outer-container')
@@ -52,7 +54,7 @@ const renderSuccessMessage = (message) => {
 
 const getAllData = async () => {
     try {
-        const url = "http://localhost:3000/data/";
+        const url = CONFIG.API_URL;
         const response = await fetch(url);
         const jsonResponse = await response.json();
         console.log(response.status)
@@ -89,7 +91,7 @@ let responseIdArray = getResponseIDs(allUserData)
 // not exist.
 const getUser = async (id) => {
     try {
-        const url = `http://localhost:3000/data/${id}`;
+        const url = `${CONFIG.API_URL}/${id}`;
         const response = await fetch(url);
         const jsonResponse = await response.json();
 
@@ -237,7 +239,7 @@ sendUserBtn.addEventListener("click", async (e) => {
    
     formContainer.classList.toggle("hidden")
     try {
-        const response = await fetch("http://localhost:3000/data/", {
+        const response = await fetch(CONFIG.API_URL, {
             headers: {
                 "Content-Type" : "application/json",
             },
