@@ -4,7 +4,7 @@ console.log("This page has been modified")
 //  DOM object assignment/element creation
 const bodyParagraphs = document.body.querySelectorAll("p")
 const newDiv = document.createElement("div")
-const messageP = document.createElement("p") 
+const messageP = document.createElement("p")
 const randSent = document.createElement("p")
 
 messageP.textContent = "The following content has been added by Web Widget:"
@@ -25,12 +25,12 @@ const sentenceArray = pageString.split(".")
 // Updated sentenceArray to account for "...", which result in items in array that
 // are empty strings.
 
-const updatedSentenceArray = sentenceArray.filter((item)=> {
-   return item.length > 3
+const updatedSentenceArray = sentenceArray.filter((item) => {
+    return item.length > 3
 })
 
 let randomIndex = Math.floor(Math.random() * updatedSentenceArray.length)
-randSent.textContent=`${updatedSentenceArray[randomIndex]}.`
+randSent.textContent = `${updatedSentenceArray[randomIndex]}.`
 newDiv.appendChild(randSent)
 document.body.appendChild(newDiv)
 

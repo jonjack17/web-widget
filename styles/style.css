@@ -3,9 +3,8 @@ body {
     font-size: 1rem;
     color: #0D007C;
     width: 35rem;
-    
-}
 
+}
 
 .outer-container {
     height: 40rem;
@@ -39,38 +38,37 @@ body {
     background: lightblue;
     color: #0D007C;
     font-weight: bold;
-    
+
 }
 
 #create-user-container {
     margin: 0 auto;
     margin-bottom: 1rem;
-    
+
     width: 50%;
     border: .2rem solid blue;
     border-radius: 1rem;
-    background-color:lightcyan;
+    background-color: lightcyan;
 }
 
 #create-user-form {
-    display:flex;
+    display: flex;
     flex-direction: column;
     padding: 1rem
-    
 }
 
 
 input {
-    margin-bottom: 1rem; 
+    margin-bottom: 1rem;
 }
 
 
 
 #response-container {
-    margin:  1rem;
+    margin: 1rem;
     border-radius: 1rem;
     padding: 1rem 0rem;
-    
+
 }
 
 .success-message {
@@ -101,7 +99,7 @@ input {
     width: 25%;
     border: 1px solid lightgrey;
     padding: .5rem 0rem;
-   
+
     overflow: hidden;
 }
 
@@ -131,13 +129,13 @@ input {
 
 .btn-alternate {
     color: black;
-    background:lightcyan;
-    
+    background: lightcyan;
+
 }
 
 .clear-btn {
     margin-bottom: 1rem;
-    color:white;
+    color: white;
     background: salmon;
 
 }
@@ -147,7 +145,5 @@ input {
 }
 
 .hidden {
-    display:none;
+    display: none;
 }
-
-
