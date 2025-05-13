@@ -17,13 +17,15 @@ button should call the functions that create/render the user object.
 
 Todo:
 
+Secure all urls in environmemt file
+
 Add try/catch on all API calls (including for the purpose of displaying error
 when server is not up) - Done!
 
-Do addtopage section
+Do addtopage section - pretty much done
 
-When a new user is added, getting all the data again so that "get user" button
-displays all data, including data just added (without having to refresh)
+**When a new user is added, getting all the data again so that "get user" button
+displays all data, including data just added (without having to refresh) - done
 
 Styling fixes/improvements - done, and fruit is good, but maybe some tiny 
 finishing touches there. (editing list style etc)

@@ -123,6 +123,7 @@ input {
 
 .row:hover {
     height: unset;
+    background-color: rgb(238, 251, 255);
 }
 
 

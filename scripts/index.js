@@ -11,7 +11,7 @@ const formContainer = document.getElementById('create-user-container')
 const sendUserBtn = document.getElementById('submit-btn')
 
 
-// Set row headers for data container. Will always be displayed.
+// Set row headers for data container.
 dataContainer.innerHTML = `
 <div class="header-row">
     <div class="cell column-header name-cell"> Name </div>
@@ -19,55 +19,75 @@ dataContainer.innerHTML = `
     <div class="cell column-header"> Info </div>
     <div class="cell column-header"> Timestamp </div>
 </div> 
-
 `
 
-// Fetch all data from the API. Added error handling to account for server
+// To be called when setting an error message in responseContainer
+const renderErrorMessage = (message) => {
+    responseContainer.classList.remove("hidden")
+    responseContainer.classList.add("error-message")
+    responseContainer.textContent = message
+
+    setTimeout(() => {
+        responseContainer.classList.add("hidden")
+        responseContainer.classList.remove("error-message")
+        responseContainer.textContent = ""
+    }, 4000)
+}
+
+// To be called when setting a success message in responseContainer
+const renderSuccessMessage = (message) => {
+    responseContainer.classList.remove("hidden")
+    responseContainer.classList.add("success-message")
+    responseContainer.textContent = message
+
+    setTimeout(() => {
+        responseContainer.classList.add("hidden")
+        responseContainer.classList.remove("success-message")
+        responseContainer.textContent = ""
+    }, 4000)
+}
+
+// Fetch all data from the server. Added error handling to account for server
 // being down. ("Hard-coded" the error message.)
 
 const getAllData = async () => {
     try {
         const url = "http://localhost:3000/data/";
         const response = await fetch(url);
-    
         const jsonResponse = await response.json();
         console.log(response.status)
         return jsonResponse
         
         } catch(error) {
         console.log(error)
-        responseContainer.classList.remove("hidden")
-        responseContainer.classList.add("error-message")
-        responseContainer.textContent = "Could not connect to server"
+        let errorMsg = "Could not connect to server"
+        renderErrorMessage(errorMsg)
             }
 }
     
-        
-      
-    
-  
+// Build an array of the IDs from each response item
 
 let allUserData = await getAllData()
 
-// Get an array of the IDs for each response item
-const getResponseIDs = () => {
+console.log(allUserData)
+const getResponseIDs = (responseArray) => {
     let itemIDs = []
-    allUserData.forEach((user) => {
+    responseArray.forEach((user) => {
         let id = user.id
         itemIDs.push(id)
     })
     return itemIDs
 }
+let responseIdArray = getResponseIDs(allUserData)
 
-let responseIdArray = getResponseIDs()
 
-// Call the API for a specific data item. 'id' parameter comes from
+
+// Call the server for a specific data item. 'id' parameter comes from
 // getUserBtn event listener.
 
-
+// Added error handling for when API is called for an item that does
+// not exist.
 const getUser = async (id) => {
-    // Added error handling for when API is called for an item that does
-    // not exist.
     try {
         const url = `http://localhost:3000/data/${id}`;
         const response = await fetch(url);
@@ -75,43 +95,56 @@ const getUser = async (id) => {
 
         if (!response.ok) {
             throw new Error(`${response.status} - ${jsonResponse.message}`)
-
         }
+
         return jsonResponse
     } catch(error) {
         console.log(error)
-            responseContainer.classList.remove("hidden")
-            responseContainer.classList.add("error-message")
-            responseContainer.textContent = error
-        setTimeout(() => {
-            responseContainer.classList.add("hidden")
-            responseContainer.classList.remove("error-message")
-            responseContainer.textContent = ""
-        }, 4000)
+        renderErrorMessage(error)
         
     }
     
 }   
 
 
+// Each time the button is clicked, I am iterating through the 
+// responseIdArray. So I'm getting each item's ID in turn, assigning
+// that to itemId, then calling getUser with each itemId as the parameter.
+// So the API is in effect called everytime the button is clicked.
+let index = 0
+getUserBtn.addEventListener("click", async (e) => {
+    let itemId = responseIdArray[index]
+    let userResponse = await getUser(itemId)
+    createUserObject(userResponse)
 
+   index += 1
+// Check if end of data array has been reached. If so, display "clear" btn
+   if (index > allUserData.length-1) {
+        getUserBtn.disabled = true
+        getUserBtn.textContent = "All Users Retrieved"
+        getUserBtn.classList.toggle('btn-alternate')
+        createClearBtn()      
+}
+})
 
+// Create an object for each individual item retrieved from server.
+// Assign properties from response object to this created object.
 const createUserObject = (item) => {
     let userObject = {
         id : item.id,
         name :item.name ? item.name : "Missing Name",
-        email: item.email ? item.email : "Missing Email",
+        email: item.email ? item.email : "",
         info:  item.info ? item.info : "Missing Info",
         fruit: item.fruit ? item.fruit : "",
         timestamp: item.timestamp ? item.timestamp : "Missing Timestamp"
-
-      
     }
    
     // Refactored for security improvement - the only data I'm setting inside
     // innerHTML is the server-generated ID (not user input). Everything that is
     // user input is set using textContent.
-    
+
+    // Create a new row for each object. Each new row div element's id is 
+    // supplied by the current userObject.
     dataContainer.innerHTML += `
         <div class="row" id=${userObject.id}>
         </div>
@@ -133,6 +166,7 @@ const createUserObject = (item) => {
     infoDiv.classList.add("cell")
     infoDiv.textContent = userObject.info
 
+    // If userObject includes fruit info, display it in a <ul>
     if (userObject.fruit) {
         let fruitListTitle = document.createElement("p")
         fruitListTitle.textContent = "Favorite fruits:"
@@ -148,7 +182,6 @@ const createUserObject = (item) => {
     
     document.getElementById(userObject.id).appendChild(infoDiv)
       
-
     let timestampDiv = document.createElement("div") 
     timestampDiv.classList.add("cell")  
     timestampDiv.textContent = userObject.timestamp
@@ -156,35 +189,11 @@ const createUserObject = (item) => {
 
 }
 
-
-// Each time the button is clicked, I am iterating through the 
-// responseIdArray. So I'm getting each item ID in turn, assigning
-// that to itemId, then calling getUser with each itemId as the parameter.
-// So the API is in effect called everytime the button is clicked.
-let index = 0
-getUserBtn.addEventListener("click", async (e) => {
-    let itemId = responseIdArray[index]
-    let userResponse = await getUser(itemId)
-   createUserObject(userResponse)
-
-   index += 1
-//    Check if end of data array has been reached. If so, display "clear" btn
-   if (index > allUserData.length-1) {
-        getUserBtn.disabled = true
-        getUserBtn.textContent = "All Users Retrieved"
-        getUserBtn.classList.toggle('btn-alternate')
-        createClearBtn()
-        
-        
-}
-
-})
-
 const createClearBtn = () => {
     const clearBtn= document.createElement("button")
     outerContainer.insertBefore(clearBtn, dataContainer)
-    clearBtn.classList.toggle('feature-btn')
-    clearBtn.classList.toggle('clear-btn')
+    clearBtn.classList.add('feature-btn')
+    clearBtn.classList.add('clear-btn')
     clearBtn.textContent = "Clear Display?"
 
     clearBtn.addEventListener("click", (e) => {
@@ -221,10 +230,6 @@ sendUserBtn.addEventListener("click", async (e) => {
 
     const bodyArray = []
     bodyArray.push(formDataObject)
-    
-    
-   
-
    
     formContainer.classList.toggle("hidden")
     try {
@@ -236,36 +241,24 @@ sendUserBtn.addEventListener("click", async (e) => {
             body: JSON.stringify(bodyArray),
         })
         const resJson = await response.json()
-        responseContainer.classList.remove("hidden")
-        responseContainer.classList.add("success-message")
-        responseContainer.textContent =`User added successfully!`
-       
-        setTimeout(() => {
-            responseContainer.classList.add("hidden")
-            responseContainer.classList.remove("success-message")
-            responseContainer.textContent = ""
-        }, 3000)
+        let successMsg = 'User added successfully!'
+        renderSuccessMessage(successMsg) 
         
-        
+        // After POST, get all data again so that newly created user can be 
+        // displayed without page refresh.
+        allUserData = await getAllData()
+        responseIdArray = getResponseIDs(allUserData)
+
         if (!response.ok) {
             throw new Error(`${response.status} - ${resJson.message}`)
 
         }
         } catch(error) {
             console.log(error)
-            responseContainer.classList.remove("hidden")
-            responseContainer.classList.add("error-message")
-            responseContainer.textContent = error
-
-            setTimeout(() => {
-                responseContainer.classList.add("hidden")
-                responseContainer.classList.remove("error-message")
-                responseContainer.textContent = ""
-            }, 3000)
+            renderErrorMessage(error)
         }
 
     createUserForm.reset()
-   console.log((bodyArray))
 })
 
 const executeContentScript = async () => {
@@ -273,8 +266,14 @@ const executeContentScript = async () => {
         const [tab] = await browser.tabs.query({active: true, currentWindow: true})
         await browser.tabs.executeScript(tab.id, {file: "scripts/content_scripts/addtopage.js"})
         console.log("Script injected successfully. Tab ID:", tab.id)
+   
+        let successMsg='Content added successfully'
+        renderSuccessMessage(successMsg)
+    
     } catch(error) {
         console.error("Error injecting script:", error)
+        let errorMsg='Error injecting script'
+        renderErrorMessage(errorMsg)    
     }
 }
 
