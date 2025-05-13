@@ -134,11 +134,11 @@ getUserBtn.addEventListener("click", async (e) => {
 const createUserObject = (item) => {
     let userObject = {
         id : item.id,
-        name :item.name ? item.name : "Missing Name",
+        name :item.name ? item.name : "[Missing Name]",
         email: item.email ? item.email : "",
-        info:  item.info ? item.info : "Missing Info",
+        info:  item.info ? item.info : "[Missing Info]",
         fruit: item.fruit ? item.fruit : "",
-        timestamp: item.timestamp ? item.timestamp : "Missing Timestamp"
+        timestamp: item.timestamp ? item.timestamp : "[Missing Timestamp]"
     }
    
     // Refactored for security improvement - the only data I'm setting inside
@@ -154,20 +154,37 @@ const createUserObject = (item) => {
 
     // Create divs for each userObject property. These become "cells" in
     // each row.
+
+    // Name property (may exist)
     let nameDiv = document.createElement("div") 
     nameDiv.classList.add("cell")
     nameDiv.classList.add("name-cell")  
+
+    if (userObject.name === "[Missing Name]") {
+        nameDiv.style.color = "red"
+        nameDiv.style.fontSize = ".7rem"
+    }
+
     nameDiv.textContent = userObject.name
     document.getElementById(userObject.id).appendChild(nameDiv)
     
+    // Email property (will always exist)
     let emailDiv = document.createElement("div") 
     emailDiv.classList.add("cell")  
     emailDiv.classList.add("email-cell") 
     emailDiv.textContent = userObject.email
     document.getElementById(userObject.id).appendChild(emailDiv)   
 
+
+    // Info property (may exist)
     let infoDiv = document.createElement("div") 
     infoDiv.classList.add("cell")
+
+    if (userObject.info === "[Missing Info]") {
+        infoDiv.style.color = "red"
+        infoDiv.style.fontSize = ".7rem"
+    }
+
     infoDiv.textContent = userObject.info
 
     // If userObject includes fruit info, display it in a <ul>
@@ -185,10 +202,20 @@ const createUserObject = (item) => {
     } 
     
     document.getElementById(userObject.id).appendChild(infoDiv)
-      
+    
+    // Timestamp property (may exist). If exists, reformat for better display.
     let timestampDiv = document.createElement("div") 
-    timestampDiv.classList.add("cell")  
-    timestampDiv.textContent = userObject.timestamp
+    timestampDiv.classList.add("cell")
+    if (userObject.timestamp === "[Missing Timestamp]") {
+        timestampDiv.classList.add("missing-data")
+        timestampDiv.style.fontSize = ".7rem"
+        timestampDiv.textContent = userObject.timestamp
+    } else {
+        const convertedDate =  new Date(userObject.timestamp)
+        const prettyDate = convertedDate.toLocaleString()  
+        timestampDiv.textContent = prettyDate
+    }
+    
     document.getElementById(userObject.id).appendChild(timestampDiv)   
 
 }

@@ -103,10 +103,12 @@ input {
     padding: .5rem 0rem;
    
     overflow: hidden;
-    
-    
-
 }
+
+.missing-data {
+    color: red;
+}
+
 
 .name-cell {
     width: 15%;
