@@ -150,6 +150,8 @@ const createUserObject = (item) => {
         </div>
               `       
 
+    // Create divs for each userObject property. These become "cells" in
+    // each row.
     let nameDiv = document.createElement("div") 
     nameDiv.classList.add("cell")
     nameDiv.classList.add("name-cell")  
@@ -189,6 +191,8 @@ const createUserObject = (item) => {
 
 }
 
+// Clear button resets dataContainer to just the column headers. Resets the
+// responseIdArray index iterator back to zero.
 const createClearBtn = () => {
     const clearBtn= document.createElement("button")
     outerContainer.insertBefore(clearBtn, dataContainer)
@@ -218,7 +222,7 @@ createUserBtn.addEventListener("click", (e) => {
     formContainer.classList.toggle("hidden")
 })
 
-
+// POST new user using formData
 sendUserBtn.addEventListener("click", async (e) => {
     e.preventDefault()
     const createUserForm = document.getElementById('create-user-form')
