@@ -272,7 +272,7 @@ const executeContentScript = async () => {
     try {
         const [tab] = await browser.tabs.query({active: true, currentWindow: true})
         await browser.tabs.executeScript(tab.id, {file: "scripts/content_scripts/addtopage.js"})
-        console.log("Success", tab.id)
+        console.log("Script injected successfully. Tab ID:", tab.id)
     } catch(error) {
         console.error("Error injecting script:", error)
     }
