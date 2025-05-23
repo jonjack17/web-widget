@@ -1,6 +1,5 @@
 import { CONFIG } from "/scripts/config.js"
 
-
 // DOM object assignment.
 const outerContainer = document.getElementById('outer-container')
 const dataContainer = document.getElementById('data-container')
@@ -10,7 +9,6 @@ const createUserBtn = document.getElementById('create-user-btn')
 const responseContainer = document.getElementById('response-container')
 const formContainer = document.getElementById('create-user-container')
 const sendUserBtn = document.getElementById('submit-btn')
-
 
 // Set row headers for data container.
 dataContainer.innerHTML = `
@@ -50,7 +48,6 @@ const renderSuccessMessage = (message) => {
 
 // Fetch all data from the server. Added error handling to account for server
 // being down. ("Hard-coded" the error message.)
-
 const getAllData = async () => {
     try {
         const url = CONFIG.API_URL;
@@ -67,7 +64,6 @@ const getAllData = async () => {
 }
 
 // Build an array of the IDs from each response item
-
 let allUserData = await getAllData()
 
 console.log(allUserData)
@@ -80,8 +76,6 @@ const getResponseIDs = (responseArray) => {
     return itemIDs
 }
 let responseIdArray = getResponseIDs(allUserData)
-
-
 
 // Call the server for a specific data item. 'id' parameter comes from
 // getUserBtn event listener.
@@ -102,11 +96,8 @@ const getUser = async (id) => {
     } catch (error) {
         console.log(error)
         renderErrorMessage(error)
-
     }
-
 }
-
 
 // Each time the button is clicked, I am iterating through the 
 // responseIdArray. So I'm getting each item's ID in turn, assigning
@@ -242,7 +233,6 @@ const createClearBtn = () => {
         getUserBtn.disabled = false
         getUserBtn.textContent = "Get User"
         getUserBtn.classList.toggle('btn-alternate')
-
     })
 }
 
